@@ -9,7 +9,7 @@ class User < ApplicationRecord
             uniqueness: { case_sensitive: false }
   has_secure_password
   enum gender_type: ["Not telling", "Male", "Female"]
-  validates :password, presence: true, length: {minimum: 6}
+  validates :password, presence: true, length: {minimum: 6}, allow_nil: true
 
   class << self
     def digest(string)
@@ -35,5 +35,9 @@ class User < ApplicationRecord
 
   def forget
     update_attribute(:remember_digest, nil);
+  end
+
+  def current_user? user
+    user == self
   end
 end
